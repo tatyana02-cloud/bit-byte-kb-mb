@@ -120,7 +120,7 @@
       border: 1px solid #e2e8f0;
       padding: 12px 16px;
       border-radius: 8px;
-      font-size: 15.5px;
+      font-size: 15px;
       color: #0f172a;
       flex-wrap: wrap;
     }
@@ -151,11 +151,11 @@
       padding: 6px 10px;
       border: 2px solid #cbd5e1;
       border-radius: 6px;
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 600;
       outline: none;
       background: #ffffff;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background-color 0.2s;
     }
     select.unit-select.correct {
       border-color: #22c55e !important;
@@ -271,7 +271,7 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
     }
@@ -310,8 +310,8 @@
       <div class="theory-line"><strong>1 ТБ (терабайт) = 1024 ГБ = 1024 * 1024 МБ = 1024 * 1024 * 1024 КБ = 1024 * 1024 * 1024 * 1024 Байт</strong></div>
       <hr style="margin: 14px 0; border: none; border-top: 1px solid #cbd5e1;">
       <div style="font-size: 14.5px;">
-        • Идём <strong>вниз к меньшим</strong> единицам — <strong>умножаем</strong>.<br>
-        • Идём <strong>вверх к большим</strong> единицам — <strong>делим</strong>.
+        • Идём <strong>вниз к меньшим</strong> единицам (например МБ &rarr; КБ или Байт &rarr; Бит) — <strong>умножаем</strong>.<br>
+        • Идём <strong>вверх к большим</strong> единицам (например Бит &rarr; Байт или Байт &rarr; КБ) — <strong>делим</strong>.
       </div>
     </div>
 
@@ -323,8 +323,8 @@
   <!-- ЭКРАН ТЕСТА -->
   <div id="quiz-screen" style="display: none;">
     <div class="header-step">
-      <span id="step-counter">Задание 1 из 10</span>
-      <span id="score-counter">Баллы: 0 / 10</span>
+      <span id="step-counter">Задание 1 из 11</span>
+      <span id="score-counter">Баллы: 0 / 11</span>
     </div>
     <div class="progress-bar-container">
       <div class="progress-bar" id="progress"></div>
@@ -344,7 +344,7 @@
   <!-- РЕЗУЛЬТАТЫ -->
   <div class="result-screen" id="result-screen">
     <h2>Тестирование завершено</h2>
-    <div class="result-score" id="final-score">0 / 10</div>
+    <div class="result-score" id="final-score">0 / 11</div>
     <p class="result-msg" id="final-message"></p>
 
     <div style="font-weight: 600; color: #334155; margin-bottom: 12px; font-size: 15px;">Результаты по заданиям:</div>
@@ -355,7 +355,7 @@
 </div>
 
 <script>
-// Банк заданий с 3 вариантами для всех чисел (кроме 1)
+// Банк заданий
 const stageBanks = [
   // 1. Байты в биты (3 варианта чисел)
   {
@@ -495,9 +495,38 @@ const stageBanks = [
     ]
   },
 
-  // 5. Выпадающий список (строго 1 КБ, 1 МБ, 1 ГБ, 1 ТБ - не меняется)
+  // 5. НОВОЕ ЗАДАНИЕ: Выбор арифметического действия для перевода
   {
     title: "Задание 5",
+    desc: "Выбери верное математическое действие для каждого перехода между единицами:",
+    type: "select",
+    variants: [
+      [
+        { prefix: "Для перевода из МБ в КБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из Бит в Байты нужно:", answer: "разделить на 8", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 8" },
+        { prefix: "Для перевода из Байт в Биты нужно:", answer: "умножить на 8", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 8" },
+        { prefix: "Для перевода из КБ в Байт нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из ГБ в МБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из МБ в ГБ нужно:", answer: "разделить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 1024" },
+        { prefix: "Для перевода из ТБ в ГБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из Байт в КБ нужно:", answer: "разделить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 1024" }
+      ],
+      [
+        { prefix: "Для перевода из Байт в Биты нужно:", answer: "умножить на 8", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 8" },
+        { prefix: "Для перевода из МБ в КБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из Байт в КБ нужно:", answer: "разделить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 1024" },
+        { prefix: "Для перевода из Бит в Байты нужно:", answer: "разделить на 8", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 8" },
+        { prefix: "Для перевода из КБ в Байт нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из ГБ в МБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из ТБ в ГБ нужно:", answer: "умножить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "умножить на 1024" },
+        { prefix: "Для перевода из МБ в ГБ нужно:", answer: "разделить на 1024", options: ["умножить на 1024", "разделить на 1024", "умножить на 8", "разделить на 8"], hint: "разделить на 1024" }
+      ]
+    ]
+  },
+
+  // 6. Выпадающий список (базовые единицы)
+  {
+    title: "Задание 6",
     desc: "Выбери подходящую единицу измерения из списка:",
     type: "select",
     variants: [
@@ -510,23 +539,23 @@ const stageBanks = [
     ]
   },
 
-  // 6. Цепочки через 1024*1024 (строго 1 МБ, 1 ГБ, 1 ТБ - не меняется)
+  // 7. Цепочки через 1024*1024 (проверяется как произведение в любом порядке, так и числом)
   {
-    title: "Задание 6",
-    desc: "Заполни недостающие звенья произведениями (например: 1024*1024):",
+    title: "Задание 7",
+    desc: "Заполни недостающие звенья произведениями (например: 1024*1024 или итоговым числом):",
     type: "simple",
     variants: [
       [
-        { prefix: "1 МБ = 1024 КБ =", answer: ["1024*1024", "1024 * 1024"], suffix: "Байт", width: "150px", hint: "1024*1024" },
-        { prefix: "1 ГБ = 1024 МБ = 1024*1024 КБ =", answer: ["1024*1024*1024", "1024 * 1024 * 1024"], suffix: "Байт", width: "210px", hint: "1024*1024*1024" },
-        { prefix: "1 ТБ = 1024 ГБ = 1024*1024 МБ = 1024*1024*1024 КБ =", answer: ["1024*1024*1024*1024", "1024 * 1024 * 1024 * 1024"], suffix: "Байт", width: "270px", hint: "1024*1024*1024*1024" }
+        { prefix: "1 МБ = 1024 КБ =", answer: ["1024*1024", "1048576"], suffix: "Байт", width: "160px", hint: "1024*1024" },
+        { prefix: "1 ГБ = 1024 МБ = 1024*1024 КБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "Байт", width: "210px", hint: "1024*1024*1024" },
+        { prefix: "1 ТБ = 1024 ГБ = 1024*1024 МБ = 1024*1024*1024 КБ =", answer: ["1024*1024*1024*1024", "1099511627776"], suffix: "Байт", width: "270px", hint: "1024*1024*1024*1024" }
       ]
     ]
   },
 
-  // 7. Простые вычисления (3 варианта чисел)
+  // 8. Простые вычисления
   {
-    title: "Задание 7",
+    title: "Задание 8",
     desc: "Впиши результат вычислений:",
     type: "simple",
     variants: [
@@ -548,43 +577,43 @@ const stageBanks = [
     ]
   },
 
-  // 8. Перевод в Бит (числа меняются, единицы с 1 остаются)
+  // 9. Перевод в Бит
   {
-    title: "Задание 8",
-    desc: "Переведи все значения в Бит (можно записывать числом или произведением через *):",
+    title: "Задание 9",
+    desc: "Переведи все значения в Бит (можно числом или произведением в любом порядке множителей):",
     type: "simple",
     variants: [
       [
-        { prefix: "3 Байт =", answer: ["24"], suffix: "Бит", width: "120px", hint: "3 * 8 = 24" },
-        { prefix: "1 КБ =", answer: ["8192", "1024*8", "8*1024"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
-        { prefix: "2 КБ =", answer: ["16384", "2*1024*8", "2048*8"], suffix: "Бит", width: "170px", hint: "2 * 1024 * 8 = 16384" },
-        { prefix: "1 МБ =", answer: ["1024*1024*8", "8*1024*1024", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8*1024*1024*1024"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8*1024*1024*1024*1024"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
+        { prefix: "3 Байт =", answer: ["24", "3*8"], suffix: "Бит", width: "120px", hint: "3 * 8 = 24" },
+        { prefix: "1 КБ =", answer: ["8192", "1024*8"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
+        { prefix: "2 КБ =", answer: ["16384", "2*1024*8"], suffix: "Бит", width: "170px", hint: "2 * 1024 * 8 = 16384" },
+        { prefix: "1 МБ =", answer: ["1024*1024*8", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8589934592"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8796093022208"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
       ],
       [
-        { prefix: "5 Байт =", answer: ["40"], suffix: "Бит", width: "120px", hint: "5 * 8 = 40" },
-        { prefix: "1 КБ =", answer: ["8192", "1024*8", "8*1024"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
-        { prefix: "4 КБ =", answer: ["32768", "4*1024*8", "4096*8"], suffix: "Бит", width: "170px", hint: "4 * 1024 * 8 = 32768" },
-        { prefix: "1 МБ =", answer: ["1024*1024*8", "8*1024*1024", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8*1024*1024*1024"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8*1024*1024*1024*1024"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
+        { prefix: "5 Байт =", answer: ["40", "5*8"], suffix: "Бит", width: "120px", hint: "5 * 8 = 40" },
+        { prefix: "1 КБ =", answer: ["8192", "1024*8"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
+        { prefix: "4 КБ =", answer: ["32768", "4*1024*8"], suffix: "Бит", width: "170px", hint: "4 * 1024 * 8 = 32768" },
+        { prefix: "1 МБ =", answer: ["1024*1024*8", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8589934592"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8796093022208"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
       ],
       [
-        { prefix: "6 Байт =", answer: ["48"], suffix: "Бит", width: "120px", hint: "6 * 8 = 48" },
-        { prefix: "1 КБ =", answer: ["8192", "1024*8", "8*1024"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
-        { prefix: "3 КБ =", answer: ["24576", "3*1024*8", "3072*8"], suffix: "Бит", width: "170px", hint: "3 * 1024 * 8 = 24576" },
-        { prefix: "1 МБ =", answer: ["1024*1024*8", "8*1024*1024", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8*1024*1024*1024"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8*1024*1024*1024*1024"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
+        { prefix: "6 Байт =", answer: ["48", "6*8"], suffix: "Бит", width: "120px", hint: "6 * 8 = 48" },
+        { prefix: "1 КБ =", answer: ["8192", "1024*8"], suffix: "Бит", width: "160px", hint: "1024 * 8 = 8192" },
+        { prefix: "3 КБ =", answer: ["24576", "3*1024*8"], suffix: "Бит", width: "170px", hint: "3 * 1024 * 8 = 24576" },
+        { prefix: "1 МБ =", answer: ["1024*1024*8", "8388608"], suffix: "Бит", width: "200px", hint: "1024 * 1024 * 8" },
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024*8", "8589934592"], suffix: "Бит", width: "240px", hint: "1024 * 1024 * 1024 * 8" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024*8", "8796093022208"], suffix: "Бит", width: "270px", hint: "1024 * 1024 * 1024 * 1024 * 8" }
       ]
     ]
   },
 
-  // 9. Перевод в Байт (числа меняются, 1 МБ, 1 ГБ, 1 ТБ остаются)
+  // 10. Перевод в Байт
   {
-    title: "Задание 9",
-    desc: "Переведи все значения в Байт (можно записывать числом или произведением через *):",
+    title: "Задание 10",
+    desc: "Переведи все значения в Байт (можно числом или произведением в любом порядке множителей):",
     type: "simple",
     variants: [
       [
@@ -592,32 +621,32 @@ const stageBanks = [
         { prefix: "3 КБ =", answer: ["3072", "3*1024"], suffix: "Байт", width: "140px", hint: "3 * 1024 = 3072" },
         { prefix: "1 МБ =", answer: ["1024*1024", "1048576"], suffix: "Байт", width: "170px", hint: "1024 * 1024" },
         { prefix: "2 МБ =", answer: ["2*1024*1024", "2097152"], suffix: "Байт", width: "180px", hint: "2 * 1024 * 1024" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024", "1099511627776"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
       ],
       [
         { prefix: "48 Бит =", answer: ["6"], suffix: "Байт", width: "120px", hint: "48 : 8 = 6" },
         { prefix: "2 КБ =", answer: ["2048", "2*1024"], suffix: "Байт", width: "140px", hint: "2 * 1024 = 2048" },
         { prefix: "1 МБ =", answer: ["1024*1024", "1048576"], suffix: "Байт", width: "170px", hint: "1024 * 1024" },
         { prefix: "3 МБ =", answer: ["3*1024*1024", "3145728"], suffix: "Байт", width: "180px", hint: "3 * 1024 * 1024" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024", "1099511627776"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
       ],
       [
         { prefix: "64 Бит =", answer: ["8"], suffix: "Байт", width: "120px", hint: "64 : 8 = 8" },
         { prefix: "5 КБ =", answer: ["5120", "5*1024"], suffix: "Байт", width: "140px", hint: "5 * 1024 = 5120" },
         { prefix: "1 МБ =", answer: ["1024*1024", "1048576"], suffix: "Байт", width: "170px", hint: "1024 * 1024" },
         { prefix: "4 МБ =", answer: ["4*1024*1024", "4194304"], suffix: "Байт", width: "180px", hint: "4 * 1024 * 1024" },
-        { prefix: "1 ГБ =", answer: ["1024*1024*1024"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
+        { prefix: "1 ГБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "Байт", width: "220px", hint: "1024 * 1024 * 1024" },
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024*1024", "1099511627776"], suffix: "Байт", width: "250px", hint: "1024 * 1024 * 1024 * 1024" }
       ]
     ]
   },
 
-  // 10. Перевод в КБ (числа меняются, 1 ГБ, 1 ТБ остаются)
+  // 11. Перевод в КБ
   {
-    title: "Задание 10",
-    desc: "Переведи все значения в КБ (можно записывать числом или произведением через *):",
+    title: "Задание 11",
+    desc: "Переведи все значения в КБ (можно числом или произведением в любом порядке множителей):",
     type: "simple",
     variants: [
       [
@@ -626,7 +655,7 @@ const stageBanks = [
         { prefix: "4 МБ =", answer: ["4096", "4*1024"], suffix: "КБ", width: "140px", hint: "4 * 1024 = 4096" },
         { prefix: "1 ГБ =", answer: ["1024*1024", "1048576"], suffix: "КБ", width: "170px", hint: "1024 * 1024" },
         { prefix: "2 ГБ =", answer: ["2*1024*1024", "2097152"], suffix: "КБ", width: "180px", hint: "2 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
       ],
       [
         { prefix: "16384 Бит =", answer: ["2"], suffix: "КБ", width: "120px", hint: "16384 : 8 = 2048 Байт; 2048 : 1024 = 2 КБ" },
@@ -634,7 +663,7 @@ const stageBanks = [
         { prefix: "2 МБ =", answer: ["2048", "2*1024"], suffix: "КБ", width: "140px", hint: "2 * 1024 = 2048" },
         { prefix: "1 ГБ =", answer: ["1024*1024", "1048576"], suffix: "КБ", width: "170px", hint: "1024 * 1024" },
         { prefix: "3 ГБ =", answer: ["3*1024*1024", "3145728"], suffix: "КБ", width: "180px", hint: "3 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
       ],
       [
         { prefix: "24576 Бит =", answer: ["3"], suffix: "КБ", width: "120px", hint: "24576 : 8 = 3072 Байт; 3072 : 1024 = 3 КБ" },
@@ -642,7 +671,7 @@ const stageBanks = [
         { prefix: "5 МБ =", answer: ["5120", "5*1024"], suffix: "КБ", width: "140px", hint: "5 * 1024 = 5120" },
         { prefix: "1 ГБ =", answer: ["1024*1024", "1048576"], suffix: "КБ", width: "170px", hint: "1024 * 1024" },
         { prefix: "4 ГБ =", answer: ["4*1024*1024", "4194304"], suffix: "КБ", width: "180px", hint: "4 * 1024 * 1024" },
-        { prefix: "1 ТБ =", answer: ["1024*1024*1024"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
+        { prefix: "1 ТБ =", answer: ["1024*1024*1024", "1073741824"], suffix: "КБ", width: "220px", hint: "1024 * 1024 * 1024" }
       ]
     ]
   }
@@ -650,7 +679,7 @@ const stageBanks = [
 
 let stages = [];
 let currentStep = 0;
-let taskStates = []; // ошибки и статус для каждого из 10 заданий
+let taskStates = [];
 
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -751,7 +780,7 @@ function renderStep() {
       row.innerHTML = `
         <span>${task.prefix}</span>
         <select class="unit-select step-input" data-ans="${task.answer}" data-hint="${task.hint}">
-          <option value="">выбери...</option>
+          <option value="">выбери действие...</option>
           ${task.options.map(o => `<option value="${o}">${o}</option>`).join('')}
         </select>
         <span class="feedback-note" id="hint-${idx}"></span>
@@ -814,13 +843,72 @@ function setupDragEvents(item, container) {
     }
   });
 
-  // Клик для тачскринов (смена со следующим)
+  // Клик для сенсорных экранов (перестановка)
   item.addEventListener('click', () => {
     if (item.classList.contains('correct') || item.classList.contains('wrong')) return;
     const next = item.nextElementSibling;
     if (next) container.insertBefore(next, item);
     else container.insertBefore(item, container.firstChild);
   });
+}
+
+// Безопасный парсер произведения: поддерживает порядок множителей и вычисленное число
+function parseMathProduct(str) {
+  if (!str) return null;
+  // Замена знаков умножения: x, х (рус), ×, · на *
+  const normalized = str.toLowerCase().replace(/[xх×·]/g, '*').replace(/\s+/g, '');
+  if (!/^(\d+)(\*\d+)*$/.test(normalized)) {
+    return null;
+  }
+  const parts = normalized.split('*').map(s => s.trim()).filter(Boolean);
+  if (!parts.length) return null;
+
+  try {
+    let product = 1n;
+    for (let part of parts) {
+      product *= BigInt(part);
+    }
+    const sortedFactors = parts.map(s => BigInt(s)).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    return {
+      total: product,
+      factors: sortedFactors
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function checkMathEquivalent(userInput, validAnswersList) {
+  const normInput = userInput.trim().toLowerCase().replace(/\s+/g, '');
+  if (!normInput) return false;
+
+  // 1. Точное совпадение строки
+  for (let ans of validAnswersList) {
+    const normAns = ans.trim().toLowerCase().replace(/\s+/g, '');
+    if (normInput === normAns) return true;
+  }
+
+  // 2. Математическая проверка (BigInt)
+  const userEval = parseMathProduct(userInput);
+  if (!userEval) return false;
+
+  for (let ans of validAnswersList) {
+    const ansEval = parseMathProduct(ans);
+    if (!ansEval) continue;
+
+    // Если значение совпадает (например 1024*8 = 8192)
+    if (userEval.total === ansEval.total) {
+      return true;
+    }
+
+    // Если набор множителей идентичен независимо от порядка
+    if (userEval.factors.length === ansEval.factors.length) {
+      const match = userEval.factors.every((val, i) => val === ansEval.factors[i]);
+      if (match) return true;
+    }
+  }
+
+  return false;
 }
 
 function checkCurrentStep() {
@@ -850,35 +938,58 @@ function checkCurrentStep() {
       feedback.style.display = 'block';
       feedback.innerHTML = `Правильный порядок: <strong>${stage.correctNames.join(' ➔ ')}</strong>`;
     }
-  } else {
-    const inputs = document.querySelectorAll('.step-input');
-
-    inputs.forEach(el => {
-      const rawVal = el.value.trim().toLowerCase().replace(/\s+/g, '');
-      const validAnswers = el.dataset.ans.toLowerCase().split('|').map(a => a.replace(/\s+/g, ''));
+  } else if (stage.type === 'select') {
+    const selects = document.querySelectorAll('.step-input');
+    selects.forEach(el => {
+      const userVal = el.value.trim();
+      const targetAns = el.dataset.ans.trim();
       const parentRow = el.closest('.task-row');
       const note = parentRow.querySelector('.feedback-note');
 
       el.disabled = true;
 
-      if (validAnswers.includes(rawVal)) {
+      if (userVal === targetAns) {
         el.classList.add('correct');
       } else {
         el.classList.add('wrong');
         stageErrors++;
         if (note) {
           note.style.display = 'inline';
-          const displayAns = el.dataset.hint || el.dataset.ans.split('|')[0];
+          note.innerHTML = `(правильно: <strong>${el.dataset.hint || targetAns}</strong>)`;
+        }
+      }
+    });
+  } else {
+    const inputs = document.querySelectorAll('.step-input');
+
+    inputs.forEach(el => {
+      const rawVal = el.value.trim();
+      const validAnswers = el.dataset.ans.split('|');
+      const parentRow = el.closest('.task-row');
+      const note = parentRow.querySelector('.feedback-note');
+
+      el.disabled = true;
+
+      const isCorrect = checkMathEquivalent(rawVal, validAnswers);
+
+      if (isCorrect) {
+        el.classList.add('correct');
+      } else {
+        el.classList.add('wrong');
+        stageErrors++;
+        if (note) {
+          note.style.display = 'inline';
+          const displayAns = el.dataset.hint || validAnswers[0];
           note.innerHTML = `(правильно: <strong>${displayAns}</strong>)`;
         }
       }
     });
   }
 
-  // Расчёт баллов за задание:
+  // Оценка задания:
   // 0 ошибок -> 1 балл
   // 1 ошибка -> 0.5 балла
-  // больше 1 ошибки -> 0 баллов
+  // 2 и более ошибок -> 0 баллов
   let assignedScore = 0;
   if (stageErrors === 0) {
     assignedScore = 1;
@@ -940,11 +1051,11 @@ function showResults() {
     let statusClass = 'wrong';
 
     if (st.errors === 0) {
-      statusClass = 'correct'; // Зеленый (1 балл)
+      statusClass = 'correct';
     } else if (st.errors === 1) {
-      statusClass = 'partial'; // Желтый (0.5 балла)
+      statusClass = 'partial';
     } else {
-      statusClass = 'wrong';   // Красный (0 баллов)
+      statusClass = 'wrong';
     }
 
     badge.className = `badge-item ${statusClass}`;
